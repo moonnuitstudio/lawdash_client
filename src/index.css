@@ -1,0 +1,122 @@
+:root {
+    --main-bg-color: #F2E9E4;
+    --darkest-color: #1E1E1E;
+    --dark-1-color: #22223B;
+    --dark-2-color: #4A4E69;
+
+    --white-color: #f2f2f2;
+    --light-1-color: #9A8C98;
+    --light-2-color: #C9ADA7;
+}
+
+html, body, #root {
+    height:100vh;
+    min-height:100vh;
+}
+
+.bg-darkest {
+    background-color: var(--darkest-color);
+}
+
+.bg-dark-1 {
+    background-color: var(--dark-1-color);
+}
+
+.bg-dark-2 {
+    background-color: var(--dark-2-color);
+}
+
+.hover-color-dark-2:hover {
+    color: var(--dark-2-color);
+}
+
+.bg-white {
+    background-color: var(--white-color);
+}
+
+.color-white {
+    color: var(--white-color);
+    transition: color ease-in .15s;
+    -webkit-transition: color ease-in .15s;
+    -moz-transition: color ease-in .15s;
+    -ms-transition: color ease-in .15s;
+    -o-transition: color ease-in .15s;
+}
+
+.btn-color-white>div {
+    color: var(--white-color);
+    transition: color ease-in .15s;
+    -webkit-transition: color ease-in .15s;
+    -moz-transition: color ease-in .15s;
+    -ms-transition: color ease-in .15s;
+    -o-transition: color ease-in .15s;
+}
+
+.hover-color-light-1:hover {
+    color: var(--light-1-color);
+    transition: color ease-in .15s;
+    -webkit-transition: color ease-in .15s;
+    -moz-transition: color ease-in .15s;
+    -ms-transition: color ease-in .15s;
+    -o-transition: color ease-in .15s;
+}
+
+.btn-hover-color-light-1:hover>div {
+    color: var(--light-1-color);
+    transition: color ease-in .15s;
+    -webkit-transition: color ease-in .15s;
+    -moz-transition: color ease-in .15s;
+    -ms-transition: color ease-in .15s;
+    -o-transition: color ease-in .15s;
+}
+
+.hover-color-light-2:hover {
+    color: var(--light-2-color);
+    transition: color ease-in .15s;
+    -webkit-transition: color ease-in .15s;
+    -moz-transition: color ease-in .15s;
+    -ms-transition: color ease-in .15s;
+    -o-transition: color ease-in .15s;
+}
+
+.btn-hover-color-light-2:hover>div {
+    color: var(--light-2-color);
+    transition: color ease-in .15s;
+    -webkit-transition: color ease-in .15s;
+    -moz-transition: color ease-in .15s;
+    -ms-transition: color ease-in .15s;
+    -o-transition: color ease-in .15s;
+}
+
+.btn-color-light-2-active>div {
+    color: var(--light-2-color) !important;
+    position: relative;
+}
+
+.btn-color-light-2-active::after {
+    display: block;
+    content: '';
+    width: 5px;
+    height: 80%;
+    background-color: var(--light-2-color);
+    position: absolute;
+    top: 10%;
+    right: 0;
+}
+
+/* BTN */
+
+
+/* Cursor */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* FONTS */
+.fnt-montserrat {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.fnt-roboto {
+    font-family: 'Roboto', sans-serif !important;
+}
