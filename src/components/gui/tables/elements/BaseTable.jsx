@@ -59,7 +59,7 @@ const BaseTable = ({rows, headCells}) => {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-          const newSelected = rows.map((n) => n.name);
+          const newSelected = rows.map((n) => n.id);
           setSelected(newSelected);
           return;
         }
@@ -126,18 +126,18 @@ const BaseTable = ({rows, headCells}) => {
                         {stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
-                            const isItemSelected = isSelected(row.name);
+                            const isItemSelected = isSelected(row.id);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
                                 <TableRow
                                 hover
-                                onClick={(event) => handleClick(event, row.name)}
                                 role="checkbox"
                                 aria-checked={isItemSelected}
                                 tabIndex={-1}
-                                key={row.name}
+                                key={row.id}
                                 selected={isItemSelected}
+                                sx={{ cursor: 'pointer', ...(isItemSelected && { fontWeight: 'Bold' }) }}
                                 >
                                   <TableCell padding="checkbox">
                                       <Checkbox
@@ -146,6 +146,7 @@ const BaseTable = ({rows, headCells}) => {
                                       inputProps={{
                                           'aria-labelledby': labelId,
                                       }}
+                                      onClick={(event) => handleClick(event, row.id)}
                                       />
                                   </TableCell>
 
@@ -153,18 +154,19 @@ const BaseTable = ({rows, headCells}) => {
                                     const propety = header.id;
                                     var element = row[propety];
 
-                                    if (element.trim() == "") element = "None"
+                                    if (element == null || element.trim() == "") element = "None"
 
                                     return index == 0? (
                                       <TableCell
                                         component="th"
                                         id={labelId}
                                         scope="row"
+                                        sx={{ ...(isItemSelected && { fontWeight: 'Bold' }) }}
                                       > 
                                         {element}
                                       </TableCell>
                                     ) : (
-                                      <TableCell align="left">{element}</TableCell>
+                                      <TableCell sx={{ ...(isItemSelected && { fontWeight: 'Bold' }) }} align="left">{element}</TableCell>
                                     )
                                   })}
                                 </TableRow>

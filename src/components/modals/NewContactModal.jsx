@@ -2,14 +2,16 @@ import SimpleModal from "../gui/modals/SimpleModal"
 import NewContactForms from "../forms/NewContactForms";
 
 import useToastify from "../../hooks/useToastify";
+import useContacts from "../../hooks/useContacts";
 
 const NewContactModal = ({isOpen, handleClose}) => {
 
     const { showMessageToast } = useToastify()
 
-    const onSubmit = data => {
-        console.log(data)
+    const { addNewContact } = useContacts()
 
+    const onSubmit = data => {
+        addNewContact(data)
         showMessageToast('Contact added successfuly!')
         handleClose()
     }

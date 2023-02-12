@@ -42,7 +42,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '90%',
-    maxWidth: '700px',
+    maxWidth: '550px',
     background: '#f2f2f2',
     borderRadius: '10px'
 };

@@ -5,6 +5,9 @@ import {
 
 export const actionSetPermissions = (permissions, token) => {
     return async dispatch => {
+
+        //localStorage.setItem('lawdash_token', token)
+
         dispatch({
             type: GOT_USER_PERMISSIONS,
             payload: {

@@ -17,7 +17,7 @@ const headCells = [
       label: 'Last Name',
     },
     {
-      id: 'phonenumber',
+      id: 'dayphone',
       numeric: false,
       disablePadding: false,
       label: 'Phone Number',
