@@ -1,6 +1,7 @@
 import {
     LOAD_ALL_CONTACTS,
-    ADD_NEW_CONTACTS
+    ADD_NEW_CONTACTS,
+    DELETE_CONTACTS
 } from '../types/ContactsTypes'
 
 const initialState = {
@@ -18,8 +19,17 @@ export default function(state = initialState, action) {
             }
 
         case ADD_NEW_CONTACTS:
-            let new_contacts = action.payload;
-            let contacts = state.contacts.concat(new_contacts)
+            var new_contacts = action.payload
+            var contacts = state.contacts.concat(new_contacts)
+
+            return {
+                ...state,
+                contacts
+            }
+
+        case DELETE_CONTACTS:
+            var ids = action.payload
+            var contacts = state.contacts.filter(x => !ids.includes(x.id))
 
             return {
                 ...state,

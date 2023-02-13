@@ -3,6 +3,12 @@ import useContacts from "../../../hooks/useContacts"
 
 import BaseTable from './elements/BaseTable'
 
+import notfound_img from '../../../assets/img/no_contacts.png'
+
+import { 
+  Typography,
+} from "@mui/material"
+
 const headCells = [
     {
       id: 'firstname',
@@ -30,13 +36,23 @@ const headCells = [
     }
 ];
 
+const imagestyle = {
+  width: '200px'
+}
+
 const ContactsTable = () => {
 
     const { contacts } = useContacts()
 
-  return (
-    <BaseTable rows={contacts} headCells={headCells} />
-  )
+    const nose = (<>
+      <img src={notfound_img} style={imagestyle}/>
+      <Typography className="fnt-roboto" variant="h6" component="p" sx={{ marginTop: '10px', fontWeight: '900', fontSize: '18px', textTransform: 'uppercase' }}>What are you waiting for?</Typography>
+      <Typography className="fnt-montserrat" variant="body1" component="p" sx={{ marginTop: '-5px', fontSize: '15px', textTransform: 'uppercase' }}>expand your horizons!</Typography>
+    </>)
+
+    return (
+      <BaseTable rows={contacts} headCells={headCells} notfound={nose} />
+    )
 }
 
 export default ContactsTable

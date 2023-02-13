@@ -12,7 +12,6 @@ const NewContactModal = ({isOpen, handleClose}) => {
 
     const onSubmit = data => {
         addNewContact(data)
-        showMessageToast('Contact added successfuly!')
         handleClose()
     }
 

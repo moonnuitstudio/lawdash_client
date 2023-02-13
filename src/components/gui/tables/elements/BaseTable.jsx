@@ -43,7 +43,7 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const BaseTable = ({rows, headCells}) => {
+const BaseTable = ({rows, headCells, notfound}) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('firstname');
     const [selected, setSelected] = useState([]);
@@ -99,6 +99,8 @@ const BaseTable = ({rows, headCells}) => {
         setDense(event.target.checked);
     };
 
+    const resetSlectedElements = () => setSelected([])
+
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -106,7 +108,7 @@ const BaseTable = ({rows, headCells}) => {
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} ids={selected} />
+                <EnhancedTableToolbar numSelected={selected.length} ids={selected} reset={resetSlectedElements} />
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -172,6 +174,17 @@ const BaseTable = ({rows, headCells}) => {
                                 </TableRow>
                             );
                         })}
+                        {
+                          rows.length == 0 && (
+                            <TableRow>
+                              <TableCell colSpan={5}>
+                                <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100% '}}>
+                                  {notfound}
+                                </Box>
+                              </TableCell>
+                            </TableRow>
+                          )
+                        }
                         {emptyRows > 0 && (
                             <TableRow
                             style={{

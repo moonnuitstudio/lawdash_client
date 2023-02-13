@@ -6,9 +6,9 @@ export const newContactchema = yup.object({
   firstname: yup.string().required(),
   lastname: yup.string().required(),
   email: yup.string().email(),
-  phonenumber: yup.string().test(
+  dayphone: yup.string().test(
     'phone-check',
     'Phone Number is invalid',
-    phonenumber => phonenumber.length == 0 || phonenumber.match(phoneRegExp)
+    dayphone => dayphone.length == 0 || dayphone.match(phoneRegExp)
   ),
 }).required();

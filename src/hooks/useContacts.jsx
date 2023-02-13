@@ -4,7 +4,8 @@ import usePermissions from './usePermissions'
 
 import { 
     actionLoadAllContacts,
-    actionAddNewContact
+    actionAddNewContact,
+    actionDeleteContacts
 } from '../actions/ContactsAction'
 
 const useContacts = () => {
@@ -17,10 +18,13 @@ const useContacts = () => {
 
     const addNewContact = (data) => dispatch(actionAddNewContact(autorizationHeader, data))
 
+    const deleteContacts = (ids) => dispatch(actionDeleteContacts(autorizationHeader, ids))
+
     return {
         contacts,
         loadAllContacts,
-        addNewContact
+        addNewContact,
+        deleteContacts
     }
 }
 

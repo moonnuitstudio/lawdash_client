@@ -14,10 +14,12 @@ import { alpha } from '@mui/material/styles';
 import swal from 'sweetalert';
 
 import useToastify from "../../../../hooks/useToastify";
+import useContacts from "../../../../hooks/useContacts";
 
-const EnhancedTableToolbar = ({ numSelected, ids }) => {
+const EnhancedTableToolbar = ({ numSelected, ids, reset }) => {
 
     const { showMessageToast } = useToastify()
+    const { deleteContacts } = useContacts()
 
     const justOneItemSelected = numSelected == 1;
 
@@ -31,7 +33,8 @@ const EnhancedTableToolbar = ({ numSelected, ids }) => {
           })
           .then((willDelete) => {
             if (willDelete) {
-                showMessageToast('Deleted')
+                deleteContacts(ids)
+                reset()
             } 
         });
     }
