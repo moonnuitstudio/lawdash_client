@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import EnhancedTableHead from "./EnhancedTableHead";
 import EnhancedTableToolbar from "./EnhancedTableToolbar";
 
 import { 
-    Box,
-    Paper,
-    TableContainer,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
-    Checkbox,
-    TablePagination
+  Box,
+  Paper,
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TablePagination,
 } from "@mui/material";
+
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import ActionTableRow from "./ActionTableRow";
+
+import RightMenuContainer from "../../containers/RightMenuContainer";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -100,114 +105,88 @@ const BaseTable = ({rows, headCells, notfound}) => {
     };
 
     const resetSlectedElements = () => setSelected([])
+    
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const optionsContextListItems = [
+      {
+        icon: <DeleteIcon />,
+        text: 'Delete Contact',
+        action: (data) => {
+          alert(`Hello ${data.firstname} ${data.lastname}`)
+        }
+      }
+    ]
+
     return (
-        <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} ids={selected} reset={resetSlectedElements} />
-                <TableContainer>
-                    <Table
-                        sx={{ minWidth: 750 }}
-                        aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
-                    >
-                        <EnhancedTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                            headCells={headCells}
-                        />
-                        <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                            const isItemSelected = isSelected(row.id);
-                            const labelId = `enhanced-table-checkbox-${index}`;
+        <RightMenuContainer contextList={optionsContextListItems}>
+          <Box sx={{ width: '100%' }}>
+              <Paper sx={{ width: '100%', mb: 2 }}>
+                  <EnhancedTableToolbar numSelected={selected.length} ids={selected} reset={resetSlectedElements} />
+                  <TableContainer>
+                      <Table
+                          sx={{ minWidth: 750 }}
+                          aria-labelledby="tableTitle"
+                          size={dense ? 'small' : 'medium'}
+                      >
+                          <EnhancedTableHead
+                              numSelected={selected.length}
+                              order={order}
+                              orderBy={orderBy}
+                              onSelectAllClick={handleSelectAllClick}
+                              onRequestSort={handleRequestSort}
+                              rowCount={rows.length}
+                              headCells={headCells}
+                          />
+                          <TableBody>
+                          {stableSort(rows, getComparator(order, orderBy))
+                              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                              .map((row, index) => {
+                              const isItemSelected = isSelected(row.id);
+                              const labelId = `enhanced-table-checkbox-${index}`;
 
-                            return (
-                                <TableRow
-                                hover
-                                role="checkbox"
-                                aria-checked={isItemSelected}
-                                tabIndex={-1}
-                                key={row.id}
-                                selected={isItemSelected}
-                                sx={{ cursor: 'pointer', ...(isItemSelected && { fontWeight: 'Bold' }) }}
-                                >
-                                  <TableCell padding="checkbox">
-                                      <Checkbox
-                                      color="primary"
-                                      checked={isItemSelected}
-                                      inputProps={{
-                                          'aria-labelledby': labelId,
-                                      }}
-                                      onClick={(event) => handleClick(event, row.id)}
-                                      />
-                                  </TableCell>
-
-                                  {headCells.map((header, index) => {
-                                    const propety = header.id;
-                                    var element = row[propety];
-
-                                    if (element == null || element.trim() == "") element = "None"
-
-                                    return index == 0? (
-                                      <TableCell
-                                        component="th"
-                                        id={labelId}
-                                        scope="row"
-                                        sx={{ ...(isItemSelected && { fontWeight: 'Bold' }) }}
-                                      > 
-                                        {element}
-                                      </TableCell>
-                                    ) : (
-                                      <TableCell sx={{ ...(isItemSelected && { fontWeight: 'Bold' }) }} align="left">{element}</TableCell>
-                                    )
-                                  })}
-                                </TableRow>
-                            );
-                        })}
-                        {
-                          rows.length == 0 && (
-                            <TableRow>
-                              <TableCell colSpan={5}>
-                                <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100% '}}>
-                                  {notfound}
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          )
-                        }
-                        {emptyRows > 0 && (
-                            <TableRow
-                            style={{
-                                height: (dense ? 33 : 53) * emptyRows,
-                            }}
-                            >
-                            <TableCell colSpan={6} />
-                            </TableRow>
-                        )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </Box>
+                              return (
+                                  <ActionTableRow isItemSelected={isItemSelected} labelId={labelId} row={row} handleClick={handleClick} headCells={headCells} />
+                              );
+                          })}
+                          {
+                            rows.length == 0 && (
+                              <TableRow>
+                                <TableCell colSpan={5}>
+                                  <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100% '}}>
+                                    {notfound}
+                                  </Box>
+                                </TableCell>
+                              </TableRow>
+                            )
+                          }
+                          {emptyRows > 0 && (
+                              <TableRow
+                              style={{
+                                  height: (dense ? 33 : 53) * emptyRows,
+                              }}
+                              >
+                              <TableCell colSpan={6} />
+                              </TableRow>
+                          )}
+                          </TableBody>
+                      </Table>
+                  </TableContainer>
+                  <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+              </Paper>
+          </Box>
+        </RightMenuContainer>
     )
 }
 
