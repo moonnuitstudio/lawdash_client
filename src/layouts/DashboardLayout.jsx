@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 
 import { styled, useTheme } from "@mui/material/styles"
 import { useMediaQuery } from 'react-responsive';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -14,7 +14,9 @@ import usePermissions from "../hooks/usePermissions";
 import { Box, Typography } from "@mui/material"
 import LeftMenu, { LEFTMENUWIDTH } from "../components/gui/drawers/LeftMenu";
 import RightMenu, { RIGHTMENUWIDTH } from "../components/gui/drawers/RightMenu";
+
 import MobileAppBar from "../components/gui/MobileAppBar";
+import MobileMenuDrawer from "../components/gui/drawers/MobileMenuDrawer";
 
 import { fixLocationString } from "../helper";
 import jwt_decode from "jwt-decode";
@@ -34,16 +36,24 @@ const DashboardLayout = () => {
     const { showErrToast } = useToastify()
     const { setPermissions } = usePermissions()
 
-    const { isAuthenticated, user, getIdTokenClaims, getAccessTokenSilently } = useAuth0()
+    const { isAuthenticated, user, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0()
     const navigate = useNavigate()
 
     const isMobileOrTable = useMediaQuery({ query: `(max-width: 1200px)` });
     const location = useLocation();
 
-    const [leftMenuOpen, setLeftMenuOpen] = useState(true)
+    const [leftMenuOpen, setLeftMenuOpen] = useState(false)
 
     const openLeftMenu = _ =>  setLeftMenuOpen(true)
     const closeLeftMenu = _ =>  setLeftMenuOpen(false)
+
+    const [ user_nickname, user_picture ] = useMemo(() => {
+        if (!isAuthenticated) return [null, null]
+
+        const { nickname,  picture } = user
+
+        return [nickname,  picture]
+    }, [isAuthenticated])
 
     useEffect(() => {
         if (!isAuthenticated ) {
@@ -76,11 +86,12 @@ const DashboardLayout = () => {
     return (
         <Box sx={{display:'flex', height: '100vh'}}>
             <CssBaseline />
-
-            <LeftMenu open={leftMenuOpen} />
+           
+            { !isMobileOrTable && ( <LeftMenu />) }
+            { isMobileOrTable && ( <MobileMenuDrawer open={leftMenuOpen} onClose={closeLeftMenu} isAuthenticated={isAuthenticated} nickname={user_nickname} />) }
 
             <Main>
-                <MobileAppBar isMobileOrTable={isMobileOrTable} />
+                <MobileAppBar isMobileOrTable={isMobileOrTable} isAuthenticated={isAuthenticated} user={user} logout={logout} login={loginWithRedirect} openMenu={openLeftMenu}/>
 
                 {!isMobileOrTable && (
                     <>
