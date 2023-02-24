@@ -48,7 +48,7 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const BaseTable = ({rows, headCells, notfound}) => {
+const BaseTable = ({rows, headCells, notfound, contextOption, onDelete}) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('firstname');
     const [selected, setSelected] = useState([]);
@@ -111,21 +111,11 @@ const BaseTable = ({rows, headCells, notfound}) => {
 
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const optionsContextListItems = [
-      {
-        icon: <DeleteIcon />,
-        text: 'Delete Contact',
-        action: (data) => {
-          alert(`Hello ${data.firstname} ${data.lastname}`)
-        }
-      }
-    ]
-
     return (
-        <RightMenuContainer contextList={optionsContextListItems}>
+        <RightMenuContainer contextList={contextOption}>
           <Box sx={{ width: '100%' }}>
               <Paper sx={{ width: '100%', mb: 2 }}>
-                  <EnhancedTableToolbar numSelected={selected.length} ids={selected} reset={resetSlectedElements} />
+                  <EnhancedTableToolbar numSelected={selected.length} ids={selected} reset={resetSlectedElements} onDelete={onDelete} />
                   <TableContainer>
                       <Table
                           sx={{ minWidth: 750 }}
@@ -149,7 +139,7 @@ const BaseTable = ({rows, headCells, notfound}) => {
                               const labelId = `enhanced-table-checkbox-${index}`;
 
                               return (
-                                  <ActionTableRow isItemSelected={isItemSelected} labelId={labelId} row={row} handleClick={handleClick} headCells={headCells} />
+                                  <ActionTableRow index={row.id} isItemSelected={isItemSelected} labelId={labelId} row={row} handleClick={handleClick} headCells={headCells} />
                               );
                           })}
                           {

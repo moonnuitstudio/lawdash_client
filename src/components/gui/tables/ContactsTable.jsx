@@ -1,9 +1,14 @@
 import { useEffect } from "react"
+
 import useContacts from "../../../hooks/useContacts"
+import useToastify from "../../../hooks/useToastify"
 
 import BaseTable from './elements/BaseTable'
 
 import notfound_img from '../../../assets/img/no_contacts.png'
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import swal from 'sweetalert';
 
 import { 
   Typography,
@@ -42,7 +47,48 @@ const imagestyle = {
 
 const ContactsTable = () => {
 
-    const { contacts } = useContacts()
+    const { contacts, deleteContacts } = useContacts()
+    const { showMessageToast } = useToastify()
+
+    const actionDeleteContacts = (reset, length, ids) => {
+      swal({
+            title: "Are you sure?",
+            text: `Once deleted, you will not be able to recover ${length == 1? 'this contact' : 'those contacts' }!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                deleteContacts(ids)
+                reset()
+            } 
+      });
+    }
+
+    const optionsList = [
+      {
+        icon: <DeleteIcon />,
+        text: 'Delete Contact',
+        action: (data) => {
+          const {id, firstname, lastname} = data
+
+          swal({
+            title: "Are you sure?",
+            text: `Once deleted, you will not be able to recover ${firstname} ${lastname}'s contact!`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                deleteContacts([id])
+            } 
+      });
+          
+        }
+      }
+    ]
 
     const nose = (<>
       <img src={notfound_img} style={imagestyle}/>
@@ -51,7 +97,7 @@ const ContactsTable = () => {
     </>)
 
     return (
-      <BaseTable rows={contacts} headCells={headCells} notfound={nose} />
+      <BaseTable rows={contacts} headCells={headCells} notfound={nose} contextOption={optionsList} onDelete={actionDeleteContacts} />
     )
 }
 

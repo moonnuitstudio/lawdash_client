@@ -58,12 +58,12 @@ const RightMenu = () => {
       {!isAuthenticated? (
         <Button onClick={loginWithRedirect} disableElevation className="dark-2 fnt-montserrat" sx={{textTransform: 'capitalize'}} variant="contained" startIcon={<LoginIcon />}>Log In</Button>
       ) : (
-        <Box component="div" fullWidth sx={{display: 'flex', flexDirection: 'column', height: "100%"}}>
+        <Box component="div" sx={{display: 'flex', flexDirection: 'column', height: "100%"}}>
           <UserCard nickname={nickname} picture={avatarPicture} role={role} />
           <Divider light sx={{borderColor: 'rgba(0,0,0,.2)', borderWidth: '1px', marginBottom: '10px'}} />
           <Box component="div" sx={{flexGrow: 1}}></Box>
           <Divider light sx={{borderColor: 'rgba(0,0,0,.2)', borderWidth: '1px', marginBottom: '10px'}} />
-          <Button fullWidth onClick={logout} variant="text" sx={{textTransform: 'capitalize'}} className="txt-dark-1 fnt-montserrat" startIcon={<LogoutIcon />}>Logout</Button>
+          <Button onClick={logout} variant="text" sx={{textTransform: 'capitalize'}} className="txt-dark-1 fnt-montserrat" startIcon={<LogoutIcon />}>Logout</Button>
         </Box>
       )}
     </Drawer>

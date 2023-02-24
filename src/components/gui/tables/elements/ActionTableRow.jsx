@@ -7,38 +7,9 @@ import {
     Checkbox,
 } from "@mui/material";
 
-const ActionTableRow = ({isItemSelected, row, labelId, handleClick, headCells}) => {
+const ActionTableRow = ({index, isItemSelected, row, labelId, handleClick, headCells}) => {
 
     const rowRef = useRef(null)
-
-    const handleRightClick = event => {
-        event.preventDefault();
-
-        //console.log(contextMenuRef)
-
-        // const elementHeight = rowRef.current.clientHeight
-        // const contextHeight = contextMenuRef.current.clientHeight
-        // const rect = rowRef.current.getBoundingClientRect();
-
-        // console.log(contextHeight)
-
-        // const left = rect.left
-        // const right = rect.right
-
-        // let pointX = event.pageX
-
-        // console.log(right, (pointX + 100))
-
-        // if (left >= pointX) pointX = left + 30;
-        // else if (right <= (pointX + 100)) pointX = right - 130;
-        
-        // const points = {
-        //     x: pointX,
-        //     y: rect.top + (elementHeight / 3),
-        // }
-
-        //handleContextMenu(event, points)
-    }
 
     return (
         <RightMenuConsumer>
@@ -52,7 +23,7 @@ const ActionTableRow = ({isItemSelected, row, labelId, handleClick, headCells}) 
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.id}
+                        key={index}
                         selected={isItemSelected}
                         sx={{ cursor: 'pointer', ...(isItemSelected && { fontWeight: 'Bold' }) }}
                         ref={rowRef}

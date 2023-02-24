@@ -11,33 +11,14 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 
-import swal from 'sweetalert';
-
 import useToastify from "../../../../hooks/useToastify";
 import useContacts from "../../../../hooks/useContacts";
 
-const EnhancedTableToolbar = ({ numSelected, ids, reset }) => {
-
-    const { showMessageToast } = useToastify()
-    const { deleteContacts } = useContacts()
+const EnhancedTableToolbar = ({ numSelected, ids, reset, onDelete }) => {
 
     const justOneItemSelected = numSelected == 1;
 
-    const askDeleteContact = () => {
-        swal({
-            title: "Are you sure?",
-            text: `Once deleted, you will not be able to recover ${justOneItemSelected? 'this contact' : 'those contacts' }!`,
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-                deleteContacts(ids)
-                reset()
-            } 
-        });
-    }
+    const prepareDeleteAction = () => onDelete(reset, numSelected, ids)
 
   return (
     <Toolbar
@@ -61,7 +42,7 @@ const EnhancedTableToolbar = ({ numSelected, ids, reset }) => {
                     {numSelected} Contact{justOneItemSelected? '' : 's'} Selected
                 </Typography>
                 <Box sx={{marginRight: '20px'}}>
-                    <IconButton color="primary" aria-label="Delete contacs" component="span" onClick={askDeleteContact}>
+                    <IconButton color="primary" aria-label="Delete contacs" component="span" onClick={prepareDeleteAction}>
                         { justOneItemSelected? <DeleteIcon /> : <DeleteSweepIcon /> }
                     </IconButton> 
                 </Box>

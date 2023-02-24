@@ -71,7 +71,7 @@ const RightMenuContainer = ({children, contextList}) => {
                     <ListItem disablePadding>
                         {
                             contextList.map((option, index) => (
-                                <ListItemButton onClick={() => { option.action(data) }}>
+                                <ListItemButton key={index} onClick={() => { option.action(data) }}>
                                     <ListItemIcon>
                                         {option.icon}
                                     </ListItemIcon>
