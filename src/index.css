@@ -109,6 +109,11 @@ html, body, #root {
     position: relative;
 }
 
+.btn-color-dark-2>* {
+    color: var(--dark-2-color) !important;
+    position: relative;
+}
+
 /* BTN */
 
 

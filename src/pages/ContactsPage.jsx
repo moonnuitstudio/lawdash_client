@@ -12,7 +12,7 @@ import NewContactModal from '../components/modals/NewContactModal'
 import ModalButton from '../components/gui/modals/ModalButton'
 
 import ContactsTable from '../components/gui/tables/ContactsTable'
-
+import ContactStack from '../components/gui/stacks/ContactStack';
 
 const ContactsPage = () => {
 
@@ -28,23 +28,18 @@ const ContactsPage = () => {
     loadAllContacts()
   }, [])
 
+  if (isMobileOrTable) return (<ContactStack />)
+
   return (
     <>
       <Grid container direction="row" justifyContent="flex-end" spacing={2}>
-        {
-          isMobileOrTable? 
-          (<>
-          
-          </>) : <>
-          <Grid item xs={10}></Grid>
-            <Grid item xs={2} sx={{display:'flex', justifyContent:'flex-end'}}>
-              <ModalButton handleOpen={handleOpenAddContactModal} isOpen={showAddContactModal} text="Add Contact" />
-            </Grid>
-            <Grid item xs={12}>
-              <ContactsTable />
-            </Grid>
-          </>
-        }
+        <Grid item xs={10}></Grid>
+          <Grid item xs={2} sx={{display:'flex', justifyContent:'flex-end'}}>
+            <ModalButton handleOpen={handleOpenAddContactModal} isOpen={showAddContactModal} text="Add Contact" />
+          </Grid>
+          <Grid item xs={12}>
+            <ContactsTable />
+        </Grid>
       </Grid>
 
       <NewContactModal isOpen={showAddContactModal} handleClose={handleCloseAddContactModal} />

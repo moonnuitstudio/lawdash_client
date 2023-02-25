@@ -28,7 +28,20 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'isMobileOrT
     padding: theme.spacing(2),
     marginLeft: 0,
     ...(isMobileOrTable && {
-        paddingTop: '65px'
+        paddingTop: '65px',
+        paddingBottom: '0px',
+        height: '100vh',
+    })
+}))
+
+const CostumeBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'isMobileOrTable' })(({theme, isMobileOrTable}) => ({
+    ...(isMobileOrTable && {
+        flexGrow: 1,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start !important',
+        alignItems: 'flex-start !important',
     })
 }))
 
@@ -101,9 +114,11 @@ const DashboardLayout = () => {
                 <MobileAppBar isMobileOrTable={isMobileOrTable} isAuthenticated={isAuthenticated} user={user} logout={logout} login={loginWithRedirect} openMenu={openLeftMenu}/>
 
                 {!isMobileOrTable && (<Typography className="fnt-montserrat" fontWeight={300} fontSize={12}>Law Office of Blanca Zarazua / </Typography>)}
-                <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={isMobileOrTable? 300 : 700} fontSize={18} textTransform="capitalize">{fixLocationString(location.pathname)}</Typography>
-
-                <Outlet context={[isMobileOrTable]} />
+                
+                <CostumeBox isMobileOrTable={isMobileOrTable}>
+                    <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={isMobileOrTable? 300 : 700} fontSize={18} textTransform="capitalize" sx={{ ...(isMobileOrTable && { marginBottom: '10px' }) }}>{fixLocationString(location.pathname)}</Typography>
+                    <Outlet context={[isMobileOrTable]} />
+                </CostumeBox>
             </Main>
 
             { !isMobileOrTable && (<RightMenu />) }
