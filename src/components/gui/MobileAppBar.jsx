@@ -66,7 +66,7 @@ const MobileAppBar = ({isMobileOrTable, isAuthenticated, user, logout, login, op
                                 >
                                     <MenuIcon />
                                 </IconButton>
-                                <Typography variant="h6" noWrap component="div" className="fnt-montserrat" sx={{ flexGrow: 1 }}>
+                                <Typography variant="h6" noWrap component="div" className="fnt-montserrat" sx={{ flexGrow: 1, fontSize: '17px', textTransform: 'uppercase' }}>
                                     Law Dash
                                 </Typography>
                                 {

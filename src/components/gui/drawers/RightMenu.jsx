@@ -25,7 +25,7 @@ const RightMenu = () => {
 
     const { nickname, picture } = user
     const roles = user['https://my-app.example.com/roles']
-    let role = "none"
+    let role = "guest"
 
     if (roles && roles.length > 0) role = roles[0].replace('_', ' ')
     

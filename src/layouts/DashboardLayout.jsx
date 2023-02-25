@@ -23,10 +23,13 @@ import jwt_decode from "jwt-decode";
 
 import CssBaseline from '@mui/material/CssBaseline';
 
-const Main = styled('main')(({theme}) => ({
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'isMobileOrTable' })(({theme, isMobileOrTable}) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
     marginLeft: 0,
+    ...(isMobileOrTable && {
+        paddingTop: '65px'
+    })
 }))
 
 const DashboardLayout = () => {
@@ -47,12 +50,16 @@ const DashboardLayout = () => {
     const openLeftMenu = _ =>  setLeftMenuOpen(true)
     const closeLeftMenu = _ =>  setLeftMenuOpen(false)
 
-    const [ user_nickname, user_picture ] = useMemo(() => {
+    const [ user_nickname, user_picture, uer_role ] = useMemo(() => {
         if (!isAuthenticated) return [null, null]
 
         const { nickname,  picture } = user
+        const roles = user['https://my-app.example.com/roles']
+        let role = "guest"
 
-        return [nickname,  picture]
+        if (roles && roles.length > 0) role = roles[0].replace('_', ' ')
+
+        return [nickname,  picture, role]
     }, [isAuthenticated])
 
     useEffect(() => {
@@ -88,19 +95,15 @@ const DashboardLayout = () => {
             <CssBaseline />
            
             { !isMobileOrTable && ( <LeftMenu />) }
-            { isMobileOrTable && ( <MobileMenuDrawer open={leftMenuOpen} onClose={closeLeftMenu} isAuthenticated={isAuthenticated} nickname={user_nickname} />) }
+            { isMobileOrTable && ( <MobileMenuDrawer open={leftMenuOpen} onClose={closeLeftMenu} isAuthenticated={isAuthenticated} nickname={user_nickname} role={uer_role} />) }
 
-            <Main>
+            <Main isMobileOrTable={isMobileOrTable}>
                 <MobileAppBar isMobileOrTable={isMobileOrTable} isAuthenticated={isAuthenticated} user={user} logout={logout} login={loginWithRedirect} openMenu={openLeftMenu}/>
 
-                {!isMobileOrTable && (
-                    <>
-                        <Typography className="fnt-montserrat" fontWeight={300} fontSize={12}>Law Office of Blanca Zarazua / </Typography>
-                        <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={700} fontSize={18} textTransform="capitalize">{fixLocationString(location.pathname)}</Typography>
-                    </>
-                )}
+                {!isMobileOrTable && (<Typography className="fnt-montserrat" fontWeight={300} fontSize={12}>Law Office of Blanca Zarazua / </Typography>)}
+                <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={isMobileOrTable? 300 : 700} fontSize={18} textTransform="capitalize">{fixLocationString(location.pathname)}</Typography>
 
-                <Outlet />
+                <Outlet context={[isMobileOrTable]} />
             </Main>
 
             { !isMobileOrTable && (<RightMenu />) }

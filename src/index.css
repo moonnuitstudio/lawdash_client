@@ -104,6 +104,11 @@ html, body, #root {
     right: 0;
 }
 
+.btn-color-light-2>* {
+    color: var(--light-2-color) !important;
+    position: relative;
+}
+
 /* BTN */
 
 

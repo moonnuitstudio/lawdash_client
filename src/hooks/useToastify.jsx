@@ -1,8 +1,10 @@
 import { toast } from 'react-toastify';
+import { useMediaQuery } from 'react-responsive';
 
 const useToastify = () => {
     
     const showErrToast = (msg) => {
+
         toast.error(msg, {
             position: "bottom-right",
             autoClose: 5000,
@@ -16,6 +18,7 @@ const useToastify = () => {
     }
 
     const showMessageToast = (msg) => {
+
         toast.success(msg, {
             position: "bottom-right",
             autoClose: 5000,
