@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom"
 
 import { styled, useTheme } from "@mui/material/styles"
 import { useMediaQuery } from 'react-responsive';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -49,10 +49,12 @@ const CostumeBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'isMobile
 
 const DashboardLayout = () => {
 
-    const { loadAllContacts } = useContacts()
+    const { loadAllContacts, contacts } = useContacts()
     const { hideLoadscreen } = useLoadScreen()
     const { showErrToast } = useToastify()
     const { setPermissions } = usePermissions()
+
+    const containerRef = useRef(null)
 
     const { isAuthenticated, user, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0()
     const navigate = useNavigate()
@@ -77,6 +79,15 @@ const DashboardLayout = () => {
 
         return [nickname,  picture, role]
     }, [isAuthenticated])
+
+    const containerWidth = useMemo(() => {
+        if (!containerRef || !containerRef.current) return 1200
+        
+        const width = containerRef.current.clientWidth
+
+        return width
+
+    }, [containerRef])
 
     useEffect(
         () => {
@@ -114,6 +125,10 @@ const DashboardLayout = () => {
     
     }, [isAuthenticated])
 
+    useEffect(() => {
+        if (contacts.length == 0) loadAllContacts()
+    })
+
     return (
         <Box sx={{display:'flex', height: '100vh'}}>
             <CssBaseline />
@@ -124,10 +139,10 @@ const DashboardLayout = () => {
             <Main isMobileOrTable={isMobileOrTable}>
                 <MobileAppBar isMobileOrTable={isMobileOrTable} isAuthenticated={isAuthenticated} user={user} logout={logout} login={loginWithRedirect} openMenu={openLeftMenu}/>
                 
-                <CostumeBox isMobileOrTable={isMobileOrTable}>
+                <CostumeBox ref={containerRef} isMobileOrTable={isMobileOrTable}>
                     {!isMobileOrTable && (<Typography className="fnt-montserrat" fontWeight={300} fontSize={12}>Law Office of Blanca Zarazua / </Typography>)}
                     <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={isMobileOrTable? 300 : 700} fontSize={18} textTransform="capitalize" sx={{ ...(isMobileOrTable && { marginBottom: '10px' }) }}>{pagename}</Typography>
-                    <Outlet context={[isMobileOrTable]} />
+                    <Outlet context={[isMobileOrTable, containerWidth]} />
                 </CostumeBox>
             </Main>
 
