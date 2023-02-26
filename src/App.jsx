@@ -15,6 +15,8 @@ import ContactsPage from "./pages/ContactsPage"
 import IntakePage from "./pages/IntakePage"
 import TasksPage from "./pages/TasksPage"
 
+import ContactsEditPage from "./pages/contacts/ContactsEditPage"
+
 import LoadScreen from "./components/gui/LoadScreen"
 
 import "react-toastify/dist/ReactToastify.min.css"
@@ -38,7 +40,10 @@ function App() {
             <Route path="matters" element={<MattersPage />} />
             <Route path="clients" element={<ClientsPage />} />
             <Route path="intakes" element={<IntakePage />} />
+            
             <Route path="contacts" element={<ContactsPage />} />
+            <Route path="contacts/:id" element={<ContactsEditPage />} />
+
             <Route path="tasks" element={<TasksPage />} />
           </Route>
         </Routes>

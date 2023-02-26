@@ -13,7 +13,7 @@ const ReactTextfield = ({name, label}) => {
     const errMessage = useMemo(() => hasError && errors[name].message.replace(name, label), [hasError])
 
     return (
-        <TextField error={hasError} helperText={errMessage} label={label} variant="outlined" {...register(name)} />
+        <TextField sx={{width: '100%'}} error={hasError} helperText={errMessage} label={label} variant="outlined" {...register(name)} />
     )
 }
 

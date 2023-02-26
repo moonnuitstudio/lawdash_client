@@ -21,7 +21,11 @@ const ListMenuButton = ({itemSize, children, link, tooltip}) => {
     const { checkPermissionTab } = usePermissions()
 
     const isActive = useMemo(
-        () => fixLocationString(location.pathname) == link,
+        () => {
+            const [ mainurl ] = fixLocationString(location.pathname).split('/')
+
+            return mainurl == link
+        },
         [location.pathname]
     );
 

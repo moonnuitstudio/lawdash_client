@@ -1,7 +1,8 @@
 import { 
     LOAD_ALL_CONTACTS,
     ADD_NEW_CONTACTS,
-    DELETE_CONTACTS
+    DELETE_CONTACTS,
+    SELECT_A_CONTACT
 } from "../types/ContactsTypes";
 
 import axiosClient from "../helper/AxiosClient";
@@ -46,6 +47,17 @@ export const actionDeleteContacts = (autorizationHeader, ids) => {
         } else showErrToast('ERROR!')
     }
 }
+
+export const actionSetSelectedContact = (id) => {
+    return async (dispatch) => {
+        dispatch(successSelectAContactAction(id))
+    }
+}
+
+const successSelectAContactAction = id => ({
+    type: SELECT_A_CONTACT,
+    payload: id
+})
 
 const successLoadAllAction = data => ({
     type: LOAD_ALL_CONTACTS,

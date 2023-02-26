@@ -27,19 +27,21 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'isMobileOrT
     flexGrow: 1,
     padding: theme.spacing(2),
     marginLeft: 0,
+    height: '100vh',
+    boxSizing: 'border-box',
     ...(isMobileOrTable && {
         paddingTop: '65px',
         paddingBottom: '0px',
-        height: '100vh',
     })
 }))
 
 const CostumeBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'isMobileOrTable' })(({theme, isMobileOrTable}) => ({
+    height: '100%',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
     ...(isMobileOrTable && {
         flexGrow: 1,
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'flex-start !important',
         alignItems: 'flex-start !important',
     })
@@ -59,6 +61,7 @@ const DashboardLayout = () => {
     const location = useLocation();
 
     const [leftMenuOpen, setLeftMenuOpen] = useState(false)
+    const [pagename, setPagename] = useState('')
 
     const openLeftMenu = _ =>  setLeftMenuOpen(true)
     const closeLeftMenu = _ =>  setLeftMenuOpen(false)
@@ -74,6 +77,14 @@ const DashboardLayout = () => {
 
         return [nickname,  picture, role]
     }, [isAuthenticated])
+
+    useEffect(
+        () => {
+            const [ mainurl ] = fixLocationString(location.pathname).split('/')
+
+            setPagename(mainurl)
+        }, [location.pathname]
+    );
 
     useEffect(() => {
         if (!isAuthenticated ) {
@@ -112,11 +123,10 @@ const DashboardLayout = () => {
 
             <Main isMobileOrTable={isMobileOrTable}>
                 <MobileAppBar isMobileOrTable={isMobileOrTable} isAuthenticated={isAuthenticated} user={user} logout={logout} login={loginWithRedirect} openMenu={openLeftMenu}/>
-
-                {!isMobileOrTable && (<Typography className="fnt-montserrat" fontWeight={300} fontSize={12}>Law Office of Blanca Zarazua / </Typography>)}
                 
                 <CostumeBox isMobileOrTable={isMobileOrTable}>
-                    <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={isMobileOrTable? 300 : 700} fontSize={18} textTransform="capitalize" sx={{ ...(isMobileOrTable && { marginBottom: '10px' }) }}>{fixLocationString(location.pathname)}</Typography>
+                    {!isMobileOrTable && (<Typography className="fnt-montserrat" fontWeight={300} fontSize={12}>Law Office of Blanca Zarazua / </Typography>)}
+                    <Typography variant="h1" component="div" className="fnt-roboto" fontWeight={isMobileOrTable? 300 : 700} fontSize={18} textTransform="capitalize" sx={{ ...(isMobileOrTable && { marginBottom: '10px' }) }}>{pagename}</Typography>
                     <Outlet context={[isMobileOrTable]} />
                 </CostumeBox>
             </Main>

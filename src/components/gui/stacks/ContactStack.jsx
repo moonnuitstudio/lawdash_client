@@ -30,7 +30,7 @@ const ContactStack = () => {
 
     return (
         <>
-            <Box sx={{ width: '100%', flexGrow: 1 }}>
+            <Box sx={{ width: '100%', flexGrow: 1, overflowY: 'scroll', paddingBottom: '20px' }}>
                 <Stack spacing={2}>
                     {contacts.map((contact, index) => {
 

@@ -1,11 +1,13 @@
 import {
     LOAD_ALL_CONTACTS,
     ADD_NEW_CONTACTS,
-    DELETE_CONTACTS
+    DELETE_CONTACTS,
+    SELECT_A_CONTACT
 } from '../types/ContactsTypes'
 
 const initialState = {
-    contacts: []
+    contacts: [],
+    selected: null
 }
 
 export default function(state = initialState, action) {
@@ -34,6 +36,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 contacts
+            }
+
+        case SELECT_A_CONTACT:
+            var id = action.payload
+
+            var selected = state.contacts.find(contact => contact.id == id)
+
+            return {
+                ...state,
+                selected
             }
 
         default:

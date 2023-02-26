@@ -5,14 +5,15 @@ import usePermissions from './usePermissions'
 import { 
     actionLoadAllContacts,
     actionAddNewContact,
-    actionDeleteContacts
+    actionDeleteContacts,
+    actionSetSelectedContact
 } from '../actions/ContactsAction'
 
 const useContacts = () => {
     const dispatch = useDispatch()
     const { autorizationHeader } = usePermissions()
 
-    const { contacts } = useSelector(state => state.contacts)
+    const { contacts, selected } = useSelector(state => state.contacts)
 
     const loadAllContacts = () => dispatch(actionLoadAllContacts(autorizationHeader))
 
@@ -20,11 +21,15 @@ const useContacts = () => {
 
     const deleteContacts = (ids) => dispatch(actionDeleteContacts(autorizationHeader, ids))
 
+    const selectAContact = (id) => dispatch(actionSetSelectedContact(id))
+
     return {
         contacts,
+        selectedContact: selected,
         loadAllContacts,
         addNewContact,
-        deleteContacts
+        deleteContacts,
+        selectAContact
     }
 }
 

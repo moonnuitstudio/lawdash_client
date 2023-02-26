@@ -17,8 +17,8 @@ const ContextMenu = ({children, top, left, contextMenuRef, show}) => {
     top: `-500px`, 
     left: `-500px`,
     opacity: 0,
+    paddingRight: '0px',
     '& .MuiButtonBase-root': {
-      background: 'none !important',
       '& .MuiListItemText-root span': {
         color: '#4F473D',
         

@@ -2,11 +2,13 @@ import { useEffect } from "react"
 
 import useContacts from "../../../hooks/useContacts"
 import useToastify from "../../../hooks/useToastify"
+import { useNavigate } from "react-router-dom"
 
 import BaseTable from './elements/BaseTable'
 
 import notfound_img from '../../../assets/img/no_contacts.png'
 import DeleteIcon from '@mui/icons-material/Delete';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import swal from 'sweetalert';
 
@@ -47,8 +49,9 @@ const imagestyle = {
 
 const ContactsTable = () => {
 
-    const { contacts, deleteContacts } = useContacts()
+    const { contacts, deleteContacts, selectAContact } = useContacts()
     const { showMessageToast } = useToastify()
+    const navigate = useNavigate()
 
     const actionDeleteContacts = (reset, length, ids) => {
       swal({
@@ -83,9 +86,18 @@ const ContactsTable = () => {
           .then((willDelete) => {
             if (willDelete) {
                 deleteContacts([id])
-            } 
-      });
-          
+            }
+          });
+        }
+      },
+      {
+        icon: <BorderColorIcon />,
+        text: 'Edit Contact',
+        action: (data) => {
+          const {id} = data
+
+          selectAContact(id)
+          navigate(`/contacts/${id}`)
         }
       }
     ]
