@@ -9,6 +9,33 @@
     --light-2-color: #C9ADA7;
 }
 
+/* Drag & Drop */
+.react-grid-item.react-grid-placeholder {
+    background: rgb(154,140,152);
+    opacity: 0.2;
+    transition-duration: 100ms;
+    z-index: 2;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    z-index: -10;
+  }
+
+.height-fit-content {
+    height: fit-content !important;
+}
+
+/* Hover */
+.color-2-hover:hover {
+    color: var(--dark-2-color)
+}
+
+.underline-hover:hover {
+    text-decoration: underline;
+}
+
 html, body, #root {
     height:100vh;
     min-height:100vh;
