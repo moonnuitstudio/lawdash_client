@@ -106,7 +106,7 @@ const DashboardLayout = () => {
         } else {
             const auth0_domain = import.meta.env.VITE_AUTH0_DOMAIN;
             const audience = `https://${auth0_domain}/api/v2/`;
-
+            
             const getToken = async () => {
                 const token = await getAccessTokenSilently({
                     ignoreCache: true,
